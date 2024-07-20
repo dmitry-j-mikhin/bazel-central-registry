@@ -1,6 +1,6 @@
 --- /dev/null
 +++ BUILD.bazel
-@@ -0,0 +1,46 @@
+@@ -0,0 +1,50 @@
 +""" Builds libconfig.
 +"""
 +
@@ -41,9 +41,13 @@
 +        "lib/strvec.c",
 +        "lib/util.c",
 +        "lib/wincompat.c",
-+    ],
++    ] + _LIBCONFIG_IN_PUB_HEADERS,
 +    hdrs = _LIBCONFIG_OUT_PUB_HEADERS,
 +    copts = ["-w"],
 +    includes = ["include"],
++    defines = select({
++        "@platforms//os:windows": ["WIN32","YY_NO_UNISTD_H"],
++        "//conditions:default": [],
++    }),
 +    visibility = ["//visibility:public"],
 +)
